@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "265189494364",
+    "project_id": "lingua-notes-f0549",
+    "storage_bucket": "lingua-notes-f0549.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265189494364:android:ff41e0b8c00eafe1426099",
+        "android_client_info": {
+          "package_name": "com.example.lingua_notes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcFFLbCg5FyRPHi2Vfj4hdl21ZypqkHM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
