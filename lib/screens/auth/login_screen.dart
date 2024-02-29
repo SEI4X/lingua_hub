@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_notes/blocs/authentication/authentication_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lingua_notes/blocs/sign_in/sign_in_bloc.dart';
 import 'package:lingua_notes/blocs/sign_up/sign_up_bloc.dart';
 import 'package:lingua_notes/screens/auth/sign_in_screen.dart';
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 80),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TabBar(
                           controller: tabController,
                           unselectedLabelColor: Theme.of(context)
@@ -93,21 +93,21 @@ class _LoginScreenState extends State<LoginScreen>
                             topLeftRadius: 2,
                             topRightRadius: 2,
                           ),
-                          tabs: const [
+                          tabs: [
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 12),
                               child: Text(
-                                'Sign Up',
-                                style: TextStyle(fontSize: 18),
+                                AppLocalizations.of(context)!.signUp,
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 12),
                               child: Text(
-                                'Sign In',
-                                style: TextStyle(fontSize: 18),
+                                AppLocalizations.of(context)!.signIn,
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                           ],

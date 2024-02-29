@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_notes/blocs/authentication/authentication_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lingua_notes/blocs/sign_in/sign_in_bloc.dart';
 import 'package:lingua_notes/screens/auth/login_screen.dart';
 import 'package:lingua_notes/screens/main/main_screen.dart';
@@ -23,6 +25,17 @@ class LinguaNotesView extends StatelessWidget {
         splashColor: Colors.transparent,
       ),
       title: 'Lingua Notes',
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('es'),
+        Locale('ru'),
+      ],
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
         switch (state.status) {
