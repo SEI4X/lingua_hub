@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_notes/blocs/sign_up/sign_up_bloc.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lingua_notes/core/utils/l_n_icons.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -55,7 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: SizedBox(
                 child: LNTextField(
                   controller: emailController,
-                  hintText: 'Email',
+                  hintText: AppLocalizations.of(context)!.email,
                   obscureText: false,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(
@@ -65,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   errorMsg: _errorMessage,
                   validator: (val) {
                     if ((val!.isEmpty) || (!emailRegExp.hasMatch(val))) {
-                      return 'Please enter correct email';
+                      return AppLocalizations.of(context)!.incorrectEmail;
                     } else {
                       return null;
                     }
@@ -79,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: SizedBox(
                 child: LNTextField(
                   controller: nameController,
-                  hintText: 'Nickname',
+                  hintText: AppLocalizations.of(context)!.nickname,
                   obscureText: false,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(
@@ -89,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   errorMsg: _errorMessage,
                   validator: (val) {
                     if ((val!.isEmpty)) {
-                      return 'Please enter correct email';
+                      return AppLocalizations.of(context)!.incorrectNickname;
                     } else {
                       return null;
                     }
@@ -102,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: MediaQuery.of(context).size.width * 0.9,
               child: LNTextField(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.password,
                 obscureText: isObscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 prefixIcon: const Icon(
@@ -116,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   } else if (!RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$')
                       .hasMatch(val)) {
-                    return 'Please enter a valid password';
+                    return AppLocalizations.of(context)!.incorrectPassword;
                   }
                   return null;
                 },
@@ -148,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: SizedBox(
-                        width: 180,
+                        width: 200,
                         child: TextButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
@@ -180,17 +182,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    'Sign Up',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
+                                  Expanded(
+                                    child: Text(
+                                      AppLocalizations.of(context)!.signUp,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                  const SizedBox(width: 30),
                                   Icon(
                                     LN.arrow_circle_right,
                                     size: 30,

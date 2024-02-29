@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_notes/blocs/sign_in/sign_in_bloc.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lingua_notes/core/utils/l_n_icons.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -40,7 +42,8 @@ class _SignInScreenState extends State<SignInScreen> {
         } else if (state is SignInFailure) {
           setState(() {
             isSignInRequired = false;
-            _errorMessage = 'Invalid email or password';
+            _errorMessage =
+                AppLocalizations.of(context)!.invalidEmailOrPassword;
           });
         }
       },
@@ -56,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: SizedBox(
                 child: LNTextField(
                   controller: emailController,
-                  hintText: 'Email',
+                  hintText: AppLocalizations.of(context)!.email,
                   obscureText: false,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(
@@ -66,7 +69,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   errorMsg: _errorMessage,
                   validator: (val) {
                     if ((val!.isEmpty) || (!emailRegExp.hasMatch(val))) {
-                      return 'Please enter correct email';
+                      return AppLocalizations.of(context)!.incorrectEmail;
                     } else {
                       return null;
                     }
@@ -79,7 +82,7 @@ class _SignInScreenState extends State<SignInScreen> {
               width: MediaQuery.of(context).size.width * 0.9,
               child: LNTextField(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.password,
                 obscureText: isObscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 prefixIcon: const Icon(
@@ -93,7 +96,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   } else if (!RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$')
                       .hasMatch(val)) {
-                    return 'Please enter a valid password';
+                    return AppLocalizations.of(context)!.incorrectPassword;
                   }
                   return null;
                 },
@@ -145,19 +148,20 @@ class _SignInScreenState extends State<SignInScreen> {
                               padding: const EdgeInsets.only(
                                   right: 3, top: 3, bottom: 3),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    'Sign In',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
+                                  Expanded(
+                                    child: Text(
+                                      AppLocalizations.of(context)!.signIn,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                  const SizedBox(width: 30),
                                   Icon(
                                     LN.arrow_circle_right,
                                     size: 30,

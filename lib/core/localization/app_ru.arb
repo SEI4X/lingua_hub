@@ -1,0 +1,11 @@
+{
+    "signUp": "Регистрация",
+    "signIn": "Вход",
+    "password": "Пароль",
+    "email": "Электронная почта",
+    "invalidEmail": "Некорректная почта",
+    "invalidPassword": "Некорректный пароль",
+    "invalidEmailOrPassword": "Неверная почта или пароль",
+    "nickname": "Имя/Никнейм",
+    "incorrectNickname": "Некорректное имя/никнейм"
+}

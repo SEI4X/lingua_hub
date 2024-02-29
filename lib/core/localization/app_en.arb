@@ -1,0 +1,11 @@
+{
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "password": "Password",
+    "email": "Email",
+    "incorrectEmail": "Incorrect email",
+    "incorrectPassword": "Incorrect password",
+    "invalidEmailOrPassword": "Invalid email or password",
+    "nickname": "Name/Nickname",
+    "incorrectNickname": "Incorrect name/nickname"
+}
