@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lingua_notes/blocs/sign_in/sign_in_bloc.dart';
+import 'package:lingua_notes/blocs/authentication/authentication_bloc.dart';
+import 'package:lingua_notes/blocs/authentication/reset_password/reset_password_bloc.dart';
+import 'package:lingua_notes/blocs/authentication/sign_in/sign_in_bloc.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lingua_notes/core/utils/l_n_icons.dart';
+import 'package:lingua_notes/screens/auth/reset_password_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -56,25 +58,23 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              child: SizedBox(
-                child: LNTextField(
-                  controller: emailController,
-                  hintText: AppLocalizations.of(context)!.email,
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(
-                    LN.envelope,
-                    size: 18,
-                  ),
-                  errorMsg: _errorMessage,
-                  validator: (val) {
-                    if ((val!.isEmpty) || (!emailRegExp.hasMatch(val))) {
-                      return AppLocalizations.of(context)!.incorrectEmail;
-                    } else {
-                      return null;
-                    }
-                  },
+              child: LNTextField(
+                controller: emailController,
+                hintText: AppLocalizations.of(context)!.email,
+                obscureText: false,
+                keyboardType: TextInputType.emailAddress,
+                prefixIcon: const Icon(
+                  LN.envelope,
+                  size: 18,
                 ),
+                errorMsg: _errorMessage,
+                validator: (val) {
+                  if ((val!.isEmpty) || (!emailRegExp.hasMatch(val))) {
+                    return AppLocalizations.of(context)!.incorrectEmail;
+                  } else {
+                    return null;
+                  }
+                },
               ),
             ),
             const SizedBox(height: 16),
@@ -122,6 +122,46 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             const SizedBox(height: 16),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.0),
+                        ),
+                      ),
+                      context: context,
+                      builder: (context) {
+                        return BlocProvider<ResetPasswordBloc>(
+                          create: (context) => ResetPasswordBloc(
+                            userRepository: context
+                                .read<AuthenticationBloc>()
+                                .userRepository,
+                          ),
+                          child: const ResetPasswordScreen(),
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.forgotPassword,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.6)),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             !isSignInRequired
                 ? SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
@@ -133,7 +173,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 context.read<SignInBloc>().add(SignInRequired(
-                                    emailController.text,
+                                    emailController.text.trim(),
                                     passwordController.text));
                               }
                             },

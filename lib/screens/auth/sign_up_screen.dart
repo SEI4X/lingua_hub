@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lingua_notes/blocs/sign_up/sign_up_bloc.dart';
+import 'package:lingua_notes/blocs/authentication/sign_up/sign_up_bloc.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lingua_notes/core/utils/l_n_icons.dart';
@@ -54,49 +54,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              child: SizedBox(
-                child: LNTextField(
-                  controller: emailController,
-                  hintText: AppLocalizations.of(context)!.email,
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(
-                    LN.envelope,
-                    size: 18,
-                  ),
-                  errorMsg: _errorMessage,
-                  validator: (val) {
-                    if ((val!.isEmpty) || (!emailRegExp.hasMatch(val))) {
-                      return AppLocalizations.of(context)!.incorrectEmail;
-                    } else {
-                      return null;
-                    }
-                  },
+              child: LNTextField(
+                controller: emailController,
+                hintText: AppLocalizations.of(context)!.email,
+                obscureText: false,
+                keyboardType: TextInputType.emailAddress,
+                prefixIcon: const Icon(
+                  LN.envelope,
+                  size: 18,
                 ),
+                errorMsg: _errorMessage,
+                validator: (val) {
+                  if ((val!.isEmpty) || (!emailRegExp.hasMatch(val))) {
+                    return AppLocalizations.of(context)!.incorrectEmail;
+                  } else {
+                    return null;
+                  }
+                },
               ),
             ),
             const SizedBox(height: 16),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              child: SizedBox(
-                child: LNTextField(
-                  controller: nameController,
-                  hintText: AppLocalizations.of(context)!.nickname,
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(
-                    LN.envelope,
-                    size: 18,
-                  ),
-                  errorMsg: _errorMessage,
-                  validator: (val) {
-                    if ((val!.isEmpty)) {
-                      return AppLocalizations.of(context)!.incorrectNickname;
-                    } else {
-                      return null;
-                    }
-                  },
+              child: LNTextField(
+                controller: nameController,
+                hintText: AppLocalizations.of(context)!.nickname,
+                obscureText: false,
+                keyboardType: TextInputType.emailAddress,
+                prefixIcon: const Icon(
+                  LN.envelope,
+                  size: 18,
                 ),
+                errorMsg: _errorMessage,
+                validator: (val) {
+                  if ((val!.isEmpty)) {
+                    return AppLocalizations.of(context)!.incorrectNickname;
+                  } else {
+                    return null;
+                  }
+                },
               ),
             ),
             const SizedBox(height: 16),
@@ -156,17 +152,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (_formKey.currentState!.validate()) {
                                 UserModel userModel = UserModel.empty;
                                 userModel = userModel.copyWith(
-                                  email: emailController.text,
-                                  name: nameController.text,
+                                  email: emailController.text.trim(),
+                                  name: nameController.text.trim(),
                                 );
-                                setState(() {
-                                  context.read<SignUpBloc>().add(
-                                        SignUpRequired(
-                                          userModel,
-                                          passwordController.text,
-                                        ),
-                                      );
-                                });
+                                context.read<SignUpBloc>().add(
+                                      SignUpRequired(
+                                        userModel,
+                                        passwordController.text,
+                                      ),
+                                    );
                               }
                             },
                             style: TextButton.styleFrom(

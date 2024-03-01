@@ -7,5 +7,9 @@
     "incorrectPassword": "Incorrect password",
     "invalidEmailOrPassword": "Invalid email or password",
     "nickname": "Name/Nickname",
-    "incorrectNickname": "Incorrect name/nickname"
+    "incorrectNickname": "Incorrect name/nickname",
+    "forgotPassword": "Forgot Password?",
+    "sentByEmail": "Message sent by email",
+    "resetPasswordTitle": "Enter Your Email and we will send you a password reset link",
+    "resetPasswordButton": "Reset Password"
 }

@@ -16,6 +16,6 @@ const darkTheme = ColorScheme.dark(
   primary: Color.fromARGB(255, 211, 242, 106),
   onPrimary: Color.fromARGB(255, 37, 40, 43),
   secondary: Color.fromARGB(255, 246, 246, 239),
-  onSecondary: Color.fromARGB(255, 37, 40, 43),
+  onSecondary: Color.fromARGB(255, 20, 64, 109),
   error: Colors.red,
 );

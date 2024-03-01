@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lingua_notes/blocs/sign_in/sign_in_bloc.dart';
+import 'package:lingua_notes/blocs/authentication/sign_in/sign_in_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
 
         /// Notifications page
-        Column(
+        const Column(
           children: <Widget>[
             Card(
               child: ListTile(
@@ -120,7 +120,7 @@ class _MainScreenState extends State<MainScreen> {
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: Text(
+                child: const Text(
                   'Hi!',
                 ),
               ),
