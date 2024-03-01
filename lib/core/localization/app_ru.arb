@@ -7,5 +7,9 @@
     "invalidPassword": "Некорректный пароль",
     "invalidEmailOrPassword": "Неверная почта или пароль",
     "nickname": "Имя/Никнейм",
-    "incorrectNickname": "Некорректное имя/никнейм"
+    "incorrectNickname": "Некорректное имя/никнейм",
+    "forgotPassword": "Забыли пароль?",
+    "sentByEmail": "Сообщение отправлено на почту",
+    "resetPasswordTitle": "Введите вашу почту, и мы отправим Вам ссылку для сброса пароля",
+    "resetPasswordButton": "Сбросить пароль"
 }
