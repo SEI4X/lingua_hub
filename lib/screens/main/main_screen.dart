@@ -16,118 +16,58 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: const Text('Welcome, you are In !'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.read<SignInBloc>().add(const SignOutRequired());
-            },
-            icon: const Icon(Icons.login),
+      // appBar: AppBar(
+      //   title: const Text('Welcome, you are In !'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         context.read<SignInBloc>().add(const SignOutRequired());
+      //       },
+      //       icon: const Icon(Icons.login),
+      //     ),
+      //   ],
+      // ),
+      body: [
+        /// Notes page
+        const Placeholder(),
+
+        /// User page
+        Container(
+          color: Colors.red,
+          child: const Placeholder(
+            color: Colors.red,
           ),
-        ],
-      ),
+        ),
+      ][currentPageIndex],
+
+      /// Bottom navigation bar
       bottomNavigationBar: NavigationBar(
+        height: 60,
+        elevation: 3,
+        shadowColor: Theme.of(context).colorScheme.background,
         backgroundColor: Theme.of(context).colorScheme.background,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
           });
         },
         selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
+        destinations: [
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.messenger_sharp),
+            selectedIcon: Icon(
+              Icons.explore,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            label: 'Messages',
+            icon: const Icon(Icons.explore),
+            label: 'Explore',
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.commute),
+            label: 'Commute',
           ),
         ],
       ),
-      body: [
-        /// Home page
-        Card(
-          shadowColor: Colors.transparent,
-          child: SizedBox.expand(
-            child: Center(
-              child: Text(
-                'Home page',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
-          ),
-        ),
-
-        /// Notifications page
-        const Column(
-          children: <Widget>[
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.notifications_sharp),
-                title: Text('Notification 1'),
-                subtitle: Text('This is a notification'),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.notifications_sharp),
-                title: Text('Notification 2'),
-                subtitle: Text('This is a notification'),
-              ),
-            ),
-          ],
-        ),
-
-        /// Messages page
-        ListView.builder(
-          reverse: true,
-          itemCount: 2,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: const EdgeInsets.all(8.0),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    'Hello',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                ),
-              );
-            }
-            return Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: const Text(
-                  'Hi!',
-                ),
-              ),
-            );
-          },
-        ),
-      ][currentPageIndex],
     );
   }
 }
