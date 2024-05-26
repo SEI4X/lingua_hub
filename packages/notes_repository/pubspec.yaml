@@ -1,0 +1,23 @@
+name: notes_repository
+description: "A repo that handle notes"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  equatable: ^2.0.5
+  firebase_auth: ^4.17.4
+  cloud_firestore: ^4.15.4
+  uuid: ^4.3.3
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

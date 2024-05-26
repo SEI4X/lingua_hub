@@ -3,13 +3,25 @@
     "signIn": "Вход",
     "password": "Пароль",
     "email": "Электронная почта",
-    "invalidEmail": "Некорректная почта",
-    "invalidPassword": "Некорректный пароль",
+    "incorrectEmail": "Некорректная почта",
+    "incorrectPassword": "Некорректный пароль",
     "invalidEmailOrPassword": "Неверная почта или пароль",
     "nickname": "Имя/Никнейм",
     "incorrectNickname": "Некорректное имя/никнейм",
     "forgotPassword": "Забыли пароль?",
     "sentByEmail": "Сообщение отправлено на почту",
     "resetPasswordTitle": "Введите вашу почту, и мы отправим Вам ссылку для сброса пароля",
-    "resetPasswordButton": "Сбросить пароль"
+    "resetPasswordButton": "Сбросить пароль",
+
+    "enterWordOrPhrase": "Введите слово или фразу",
+    "autoTranslate": "Авто-перевод",
+    "translate": "Перевод",
+    "tag": "Тэг",
+    "addVideoExamples": "Добавить видео-пример",
+    "transcription": "Транскрипция",
+    "someNotes": "Другие заметки",
+    "addNewNote": "Добавить запись",
+    "addingNote": "Добавление записи",
+    "editingNote": "Редактирование запись",
+    "selectCategory": "Категория"
 }

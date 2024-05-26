@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LNTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -13,6 +12,9 @@ class LNTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final String? errorMsg;
   final String? Function(String?)? onChanged;
+  final int? minLines;
+  final int? maxLines;
+  final TextInputAction? textInputAction;
 
   const LNTextField({
     super.key,
@@ -20,6 +22,7 @@ class LNTextField extends StatelessWidget {
     required this.hintText,
     required this.obscureText,
     required this.keyboardType,
+    this.textInputAction,
     this.suffixIcon,
     this.onTap,
     this.prefixIcon,
@@ -27,6 +30,8 @@ class LNTextField extends StatelessWidget {
     this.focusNode,
     this.errorMsg,
     this.onChanged,
+    this.minLines,
+    this.maxLines,
   });
 
   @override
@@ -38,7 +43,7 @@ class LNTextField extends StatelessWidget {
       keyboardType: keyboardType,
       focusNode: focusNode,
       onTap: onTap,
-      textInputAction: TextInputAction.next,
+      textInputAction: textInputAction ?? TextInputAction.next,
       onChanged: onChanged,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
@@ -65,7 +70,11 @@ class LNTextField extends StatelessWidget {
         hintStyle: TextStyle(
             color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.4)),
         errorText: errorMsg,
+        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
       ),
+      minLines: minLines ?? 1,
+      maxLines: maxLines ?? 1,
+      textAlignVertical: TextAlignVertical.center,
     );
   }
 }
