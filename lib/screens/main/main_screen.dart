@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_notes/screens/user/user_screen.dart';
+import '../notes_list/notes_listing_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_notes/blocs/authentication/sign_in/sign_in_bloc.dart';
 
@@ -16,29 +18,16 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      // appBar: AppBar(
-      //   title: const Text('Welcome, you are In !'),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         context.read<SignInBloc>().add(const SignOutRequired());
-      //       },
-      //       icon: const Icon(Icons.login),
-      //     ),
-      //   ],
-      // ),
-      body: [
-        /// Notes page
-        const Placeholder(),
+      body: IndexedStack(
+        index: currentPageIndex,
+        children: [
+          /// Notes page
+          const NotesListingScreen(),
 
-        /// User page
-        Container(
-          color: Colors.red,
-          child: const Placeholder(
-            color: Colors.red,
-          ),
-        ),
-      ][currentPageIndex],
+          /// User page
+          const UserScreen()
+        ],
+      ),
 
       /// Bottom navigation bar
       bottomNavigationBar: NavigationBar(
@@ -59,12 +48,22 @@ class _MainScreenState extends State<MainScreen> {
               Icons.explore,
               color: Theme.of(context).colorScheme.primary,
             ),
-            icon: const Icon(Icons.explore),
-            label: 'Explore',
+            icon: Icon(
+              Icons.explore,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            label: '',
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.commute),
-            label: 'Commute',
+          NavigationDestination(
+            selectedIcon: Icon(
+              Icons.commute,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            icon: Icon(
+              Icons.commute,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            label: '',
           ),
         ],
       ),

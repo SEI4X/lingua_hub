@@ -11,5 +11,17 @@
     "forgotPassword": "Forgot Password?",
     "sentByEmail": "Message sent by email",
     "resetPasswordTitle": "Enter Your Email and we will send you a password reset link",
-    "resetPasswordButton": "Reset Password"
+    "resetPasswordButton": "Reset Password",
+
+    "enterWordOrPhrase": "Enter word or phrase",
+    "autoTranslate": "Auto translate",
+    "translate": "Translate",
+    "tag": "Tag",
+    "addVideoExamples": "Add video examples",
+    "transcription": "Transcription",
+    "someNotes": "Some notes",
+    "addNewNote": "Add new note",
+    "addingNote": "Adding note",
+    "editingNote": "Editing note",
+    "selectCategory": "Сategory"
 }

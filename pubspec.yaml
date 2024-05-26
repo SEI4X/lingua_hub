@@ -22,6 +22,10 @@ dependencies:
     sdk: flutter
   intl: any
 
+  notes_repository:
+    path: packages/notes_repository
+  material_symbols_icons: ^4.2744.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
