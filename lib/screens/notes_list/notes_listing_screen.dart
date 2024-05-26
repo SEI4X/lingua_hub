@@ -6,6 +6,7 @@ import 'package:lingua_notes/core/components/chips_scroll_view.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:lingua_notes/screens/notes_list/add_new_note/new_note_screen.dart';
 import 'package:lingua_notes/screens/notes_list/note_cell/note_list_cell.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes_repository/notes_repository.dart';
 
 class NotesListingScreen extends StatefulWidget {
@@ -80,6 +81,59 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
+              actions: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(right: 16.0, bottom: 8, top: 8),
+                  child: SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        elevation: 0,
+                        shadowColor: Colors.transparent,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: Icon(
+                        Symbols.tune_rounded,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        print("TAP");
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(right: 16.0, bottom: 8, top: 8),
+                  child: SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        elevation: 0,
+                        shadowColor: Colors.transparent,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: Icon(
+                        Symbols.filter_alt_rounded,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        print("TAP");
+                      },
+                    ),
+                  ),
+                ),
+              ],
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(120),
                   child: SizedBox(
