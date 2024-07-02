@@ -1,6 +1,8 @@
 import 'models/model.dart';
 
 abstract class NoteRepository {
+  Future<void> setupRepository();
+
   Future<List<NoteModel>> getNotes();
 
   Future<void> addNote(NoteModel newNote);

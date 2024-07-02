@@ -5,6 +5,7 @@ import 'package:lingua_notes/core/components/chips_multiline.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notes_repository/notes_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../core/components/checkbox.dart';
 
@@ -218,8 +219,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
                                         transcriptionController.text,
                                     categoryId: '0',
                                     learnCount: 0,
-                                    createDate:
-                                        DateTime.now().toUtc().toString(),
+                                    createDate: Timestamp.now(),
                                     isAutoTranslated: _isAutoTranslateSelected,
                                     isLearned: false,
                                   );

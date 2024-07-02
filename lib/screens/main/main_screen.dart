@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_notes/screens/user/user_screen.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import '../notes_list/notes_listing_screen.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lingua_notes/blocs/authentication/sign_in/sign_in_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,12 +19,18 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: IndexedStack(
         index: currentPageIndex,
-        children: [
-          /// Notes page
-          const NotesListingScreen(),
+        children: const [
+          /// User page
+          UserScreen(),
 
           /// User page
-          const UserScreen()
+          UserScreen(),
+
+          /// Notes page
+          NotesListingScreen(),
+
+          /// User page
+          UserScreen()
         ],
       ),
 
@@ -45,22 +50,60 @@ class _MainScreenState extends State<MainScreen> {
         destinations: [
           NavigationDestination(
             selectedIcon: Icon(
-              Icons.explore,
+              Symbols.home_rounded,
+              size: 27,
+              weight: 600,
               color: Theme.of(context).colorScheme.primary,
             ),
             icon: Icon(
-              Icons.explore,
+              Symbols.home_rounded,
+              size: 27,
+              weight: 600,
               color: Theme.of(context).colorScheme.onPrimary,
             ),
             label: '',
           ),
           NavigationDestination(
             selectedIcon: Icon(
-              Icons.commute,
+              Symbols.school_rounded,
+              size: 27,
+              weight: 600,
               color: Theme.of(context).colorScheme.primary,
             ),
             icon: Icon(
-              Icons.commute,
+              Symbols.school_rounded,
+              size: 27,
+              weight: 600,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            label: '',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(
+              Symbols.checklist_rounded,
+              size: 27,
+              weight: 600,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            icon: Icon(
+              Symbols.checklist_rounded,
+              size: 27,
+              weight: 600,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            label: '',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(
+              Symbols.person_rounded,
+              size: 27,
+              weight: 600,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            icon: Icon(
+              Symbols.person_rounded,
+              size: 27,
+              weight: 600,
               color: Theme.of(context).colorScheme.onPrimary,
             ),
             label: '',

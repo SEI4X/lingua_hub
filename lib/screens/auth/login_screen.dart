@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen>
                               Theme.of(context).colorScheme.onBackground,
                           dividerColor: Colors.transparent,
                           overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                              WidgetStateProperty.all(Colors.transparent),
                           indicator: MaterialIndicator(
                             color: Theme.of(context).colorScheme.primary,
                             height: 3,

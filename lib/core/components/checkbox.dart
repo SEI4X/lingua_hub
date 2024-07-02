@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LabeledCheckbox extends StatelessWidget {
   const LabeledCheckbox({
@@ -35,8 +34,8 @@ class LabeledCheckbox extends StatelessWidget {
                 scale: 1.6,
                 child: Checkbox(
                   value: value,
-                  fillColor: MaterialStateProperty.resolveWith((states) {
-                    if (!states.contains(MaterialState.selected)) {
+                  fillColor: WidgetStateProperty.resolveWith((states) {
+                    if (!states.contains(WidgetState.selected)) {
                       return Theme.of(context).colorScheme.secondary;
                     }
                     return null;

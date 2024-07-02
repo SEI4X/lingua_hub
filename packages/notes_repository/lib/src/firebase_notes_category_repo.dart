@@ -7,15 +7,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseNoteCategoryRepository implements NoteCategoryRepository {
   final String? _userUid;
-  late final categoriesCollection = FirebaseFirestore.instance
-      .collection('users')
-      .doc(_userUid)
-      .collection('categories');
+  late final db = FirebaseFirestore.instance;
+  late final categoriesCollection =
+      db.collection('users').doc(_userUid).collection('categories');
 
   FirebaseNoteCategoryRepository({
     FirebaseAuth? firebaseAuth,
   }) : _userUid = firebaseAuth?.currentUser?.uid ??
             FirebaseAuth.instance.currentUser?.uid;
+
+  @override
+  Future<void> setupRepository() async {
+    db.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+  }
 
   @override
   Future<void> addNoteCategory(NoteCategoryModel newCategory) async {
