@@ -9,15 +9,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseNoteRepository implements NoteRepository {
   final String? _userUid;
-  late final noteCollection = FirebaseFirestore.instance
-      .collection('users')
-      .doc(_userUid)
-      .collection('notes');
+  late final db = FirebaseFirestore.instance;
+  late final noteCollection =
+      db.collection('users').doc(_userUid).collection('notes');
 
   FirebaseNoteRepository({
     FirebaseAuth? firebaseAuth,
   }) : _userUid = firebaseAuth?.currentUser?.uid ??
             FirebaseAuth.instance.currentUser?.uid;
+
+  @override
+  Future<void> setupRepository() async {
+    db.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+
+    noteCollection
+        .snapshots(includeMetadataChanges: true)
+        .listen((querySnapshot) {
+      for (var change in querySnapshot.docChanges) {
+        if (change.type == DocumentChangeType.added) {
+          final source =
+              (querySnapshot.metadata.isFromCache) ? "local cache" : "server";
+
+          print("Data fetched from $source}");
+        }
+      }
+    });
+  }
 
   @override
   Future<void> addNote(NoteModel newNote) async {

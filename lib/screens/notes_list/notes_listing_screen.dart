@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_notes/blocs/note_list/add_new_note/add_new_note_bloc.dart';
 import 'package:lingua_notes/blocs/note_list/categories/categories_bloc.dart';
+import 'package:lingua_notes/blocs/note_list/notes/notes_bloc.dart';
 import 'package:lingua_notes/core/components/chips_scroll_view.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:lingua_notes/screens/notes_list/add_new_note/new_note_screen.dart';
@@ -18,16 +19,28 @@ class NotesListingScreen extends StatefulWidget {
 
 class _NotesListingScreenState extends State<NotesListingScreen> {
   final passwordController = TextEditingController();
-  final NoteRepository noteRepository = FirebaseNoteRepository();
+  final NoteRepository _noteRepository = FirebaseNoteRepository();
+  final NoteCategoryRepository _categoryRepository =
+      FirebaseNoteCategoryRepository();
+
+  @override
+  void initState() {
+    _noteRepository.setupRepository();
+    _categoryRepository.setupRepository();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CategoryListingBloc>(
-          create: (context) => CategoryListingBloc(
-            noteCategoryRepository: FirebaseNoteCategoryRepository(),
-          ),
+          create: (BuildContext context) =>
+              CategoryListingBloc(noteCategoryRepository: _categoryRepository),
+        ),
+        BlocProvider<NotesBloc>(
+          create: (BuildContext context) =>
+              NotesBloc(noteRepository: _noteRepository)..add(LoadNotes()),
         ),
       ],
       child: Scaffold(
@@ -45,7 +58,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
               builder: (context) {
                 return BlocProvider<AddNewNoteBloc>(
                   create: (context) =>
-                      AddNewNoteBloc(noteRepository: noteRepository),
+                      AddNewNoteBloc(noteRepository: _noteRepository),
                   child: const NewNoteScreen(),
                 );
               },
@@ -140,7 +153,39 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                     height: 120,
                     child: Column(
                       children: [
-                        const Expanded(child: LNChipsList()),
+                        Expanded(
+                          child: BlocBuilder<CategoryListingBloc,
+                              CategoryListingState>(
+                            builder: (context, state) {
+                              switch (state.status) {
+                                case CategoriesStatus.success:
+                                  return LNChipsList(
+                                    categories: [
+                                      NoteCategoryModel(id: "1", name: "name")
+                                    ],
+                                    completion: (value) {
+                                      print("$value");
+                                    },
+                                  );
+                                case CategoriesStatus.loading:
+                                  return LNChipsList(
+                                    categories: [],
+                                    isLoading: true,
+                                    completion: (value) {},
+                                  );
+                                default:
+                                  return LNChipsList(
+                                    categories: [
+                                      NoteCategoryModel(id: "All", name: "name")
+                                    ],
+                                    completion: (value) {
+                                      print("$value");
+                                    },
+                                  );
+                              }
+                            },
+                          ),
+                        ),
                         const SizedBox(
                           height: 12,
                         ),
@@ -165,10 +210,20 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
           body: MediaQuery.removePadding(
             removeTop: true,
             context: context,
-            child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Dismissible(
+            child: BlocBuilder<NotesBloc, NotesListingState>(
+              builder: (context, state) {
+                List<NoteModel> notes = [];
+                bool isLoading = true;
+                if (state is NotesListingSuccess) {
+                  notes = state.notes;
+                  isLoading = false;
+                } else if (state is NotesListingProcess) {
+                  isLoading = true;
+                }
+                return ListView.builder(
+                  itemCount: notes.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
                       secondaryBackground: Container(
                         color: Theme.of(context).colorScheme.tertiaryContainer,
                         child: Align(
@@ -200,8 +255,15 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                         ),
                       ),
                       key: ValueKey<int>(index),
-                      child: NoteListCell());
-                }),
+                      child: NoteListCell(
+                        note: notes[index],
+                        isLoading: isLoading,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

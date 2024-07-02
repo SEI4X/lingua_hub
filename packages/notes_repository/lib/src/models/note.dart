@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import '../entities/entities.dart';
 
@@ -10,9 +11,9 @@ class NoteModel extends Equatable {
   final String? examples;
   final String categoryId;
   final int learnCount;
-  final String createDate;
-  final String? learnDate;
-  final String? lastLearnDate;
+  final Timestamp? createDate;
+  final Timestamp? learnDate;
+  final Timestamp? lastLearnDate;
   final bool isAutoTranslated;
   final bool isLearned;
 
@@ -41,9 +42,9 @@ class NoteModel extends Equatable {
     examples: '' '',
     categoryId: '0',
     learnCount: 0,
-    createDate: '',
-    learnDate: '',
-    lastLearnDate: '',
+    createDate: null,
+    learnDate: null,
+    lastLearnDate: null,
     isAutoTranslated: false,
     isLearned: false,
   );
@@ -57,9 +58,9 @@ class NoteModel extends Equatable {
     String? examples,
     String? categoryId,
     int? learnCount,
-    String? createDate,
-    String? learnDate,
-    String? lastLearnDate,
+    Timestamp? createDate,
+    Timestamp? learnDate,
+    Timestamp? lastLearnDate,
     bool? isAutoTranslated,
     bool? isLearned,
   }) {
