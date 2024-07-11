@@ -3,10 +3,15 @@ import 'package:notes_repository/notes_repository.dart';
 import 'package:shimmer/shimmer.dart';
 
 class NoteListCell extends StatelessWidget {
-  const NoteListCell({super.key, required this.note, this.isLoading = false});
+  const NoteListCell(
+      {super.key,
+      required this.note,
+      this.category = "",
+      this.isLoading = false});
 
   final bool isLoading;
   final NoteModel note;
+  final String category;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +82,7 @@ class NoteListCell extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      note.categoryId,
+                      category,
                       style: TextStyle(
                         color: Theme.of(context)
                             .colorScheme
@@ -96,7 +101,7 @@ class NoteListCell extends StatelessWidget {
             child: Icon(
               size: 30,
               Icons.done_rounded,
-              color: note.isLearned
+              color: !note.isLearned
                   ? Theme.of(context).colorScheme.onBackground.withOpacity(0.3)
                   : Theme.of(context).colorScheme.primary,
             ),

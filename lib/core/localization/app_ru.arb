@@ -23,5 +23,13 @@
     "addNewNote": "Добавить запись",
     "addingNote": "Добавление записи",
     "editingNote": "Редактирование запись",
-    "selectCategory": "Категория"
+    "selectCategory": "Категория",
+    "newCategory": "Новая категория",
+    "addNewCategory": "Добавить категорию",
+    "newNoteAdded": "Новая запись добавлена",
+    "emptyTextfield": "Поле не заполнено",
+    "categoryName": "Название категории",
+    "search": "Поиск",
+    "edit": "Изменить",
+    "delete": "Удалить"
 }

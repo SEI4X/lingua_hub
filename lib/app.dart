@@ -10,6 +10,7 @@ class LinguaNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    userRepository.setupRepository;
     return RepositoryProvider<AuthenticationBloc>(
       create: (context) => AuthenticationBloc(
         userRepository: userRepository,

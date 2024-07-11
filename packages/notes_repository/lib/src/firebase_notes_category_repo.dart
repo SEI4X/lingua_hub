@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:uuid/uuid.dart';
+
 import '../src/models/model.dart';
 import '../src/entities/entities.dart';
 import 'note_category_repo.dart';
@@ -7,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseNoteCategoryRepository implements NoteCategoryRepository {
   final String? _userUid;
-  late final db = FirebaseFirestore.instance;
+  final db = FirebaseFirestore.instance;
   late final categoriesCollection =
       db.collection('users').doc(_userUid).collection('categories');
 
@@ -22,11 +24,30 @@ class FirebaseNoteCategoryRepository implements NoteCategoryRepository {
       persistenceEnabled: true,
       cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
     );
+
+    categoriesCollection
+        .snapshots(includeMetadataChanges: true)
+        .listen((querySnapshot) {
+      for (var change in querySnapshot.docChanges) {
+        final source =
+            (querySnapshot.metadata.isFromCache) ? "local cache" : "server";
+        switch (change.type) {
+          case DocumentChangeType.added:
+            print("categoriesCollection added from $source}");
+          case DocumentChangeType.modified:
+            print("categoriesCollection modified from $source}");
+          case DocumentChangeType.removed:
+            print("categoriesCollection removed from $source}");
+        }
+      }
+    });
   }
 
   @override
   Future<void> addNoteCategory(NoteCategoryModel newCategory) async {
+    var newCategoryId = const Uuid().v4();
     try {
+      newCategory = newCategory.copyWith(id: newCategoryId);
       await categoriesCollection
           .doc(newCategory.id)
           .set(newCategory.toEntity().toJSON());

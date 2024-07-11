@@ -7,11 +7,37 @@ import 'package:user_repository/src/user_repo.dart';
 
 class FirebaseUserRepo implements UserRepository {
   final FirebaseAuth _firebaseAuth;
-  final userCollection = FirebaseFirestore.instance.collection('users');
+  final db = FirebaseFirestore.instance;
+  late final userCollection = db.collection('users');
 
   FirebaseUserRepo({
     FirebaseAuth? firebaseAuth,
   }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+
+  @override
+  Future<void> setupRepository() async {
+    db.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+
+    userCollection
+        .snapshots(includeMetadataChanges: true)
+        .listen((querySnapshot) {
+      for (var change in querySnapshot.docChanges) {
+        final source =
+            (querySnapshot.metadata.isFromCache) ? "local cache" : "server";
+        switch (change.type) {
+          case DocumentChangeType.added:
+            print("users added from $source}");
+          case DocumentChangeType.modified:
+            print("users modified from $source}");
+          case DocumentChangeType.removed:
+            print("users removed from $source}");
+        }
+      }
+    });
+  }
 
   @override
   Stream<User?> get user {

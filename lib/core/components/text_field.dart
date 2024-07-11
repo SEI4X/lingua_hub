@@ -75,6 +75,9 @@ class LNTextField extends StatelessWidget {
       minLines: minLines ?? 1,
       maxLines: maxLines ?? 1,
       textAlignVertical: TextAlignVertical.center,
+      onTapOutside: (PointerDownEvent event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
     );
   }
 }
