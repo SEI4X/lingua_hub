@@ -6,6 +6,8 @@ abstract class UserRepository {
 
   // Authentication by Email and password
 
+  Future<void> setupRepository();
+
   Future<UserModel> signUpByEmail(UserModel myUser, String password);
 
   Future<void> setUserData(UserModel myUser);

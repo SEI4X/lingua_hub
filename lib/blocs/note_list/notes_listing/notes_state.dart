@@ -1,7 +1,5 @@
 part of 'notes_bloc.dart';
 
-enum NotesListingStatus { initial, loading, success, fail }
-
 sealed class NotesListingState extends Equatable {
   const NotesListingState();
 

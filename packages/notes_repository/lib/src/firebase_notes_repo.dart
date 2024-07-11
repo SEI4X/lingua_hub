@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseNoteRepository implements NoteRepository {
   final String? _userUid;
-  late final db = FirebaseFirestore.instance;
+  final db = FirebaseFirestore.instance;
   late final noteCollection =
       db.collection('users').doc(_userUid).collection('notes');
 
@@ -29,11 +29,15 @@ class FirebaseNoteRepository implements NoteRepository {
         .snapshots(includeMetadataChanges: true)
         .listen((querySnapshot) {
       for (var change in querySnapshot.docChanges) {
-        if (change.type == DocumentChangeType.added) {
-          final source =
-              (querySnapshot.metadata.isFromCache) ? "local cache" : "server";
-
-          print("Data fetched from $source}");
+        final source =
+            (querySnapshot.metadata.isFromCache) ? "local cache" : "server";
+        switch (change.type) {
+          case DocumentChangeType.added:
+            print("notes added from $source}");
+          case DocumentChangeType.modified:
+            print("notes modified from $source}");
+          case DocumentChangeType.removed:
+            print("notes removed from $source}");
         }
       }
     });

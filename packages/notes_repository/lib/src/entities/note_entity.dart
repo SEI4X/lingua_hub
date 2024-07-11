@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'note_category_entity.dart';
 
 class NoteEntity extends Equatable {
   final String? id;

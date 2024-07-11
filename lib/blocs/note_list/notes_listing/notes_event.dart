@@ -8,12 +8,12 @@ sealed class NoteListingEvent extends Equatable {
 }
 
 class NoteSelected extends NoteListingEvent {
-  final NoteCategoryModel category;
+  final NoteModel note;
 
-  const NoteSelected(this.category);
+  const NoteSelected(this.note);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [note];
 }
 
 class LoadNotes extends NoteListingEvent {

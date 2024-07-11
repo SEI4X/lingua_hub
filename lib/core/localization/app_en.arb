@@ -23,5 +23,13 @@
     "addNewNote": "Add new note",
     "addingNote": "Adding note",
     "editingNote": "Editing note",
-    "selectCategory": "Сategory"
+    "selectCategory": "Сategory",
+    "addNewCategory": "Add new category",
+    "newCategory": "New category",
+    "newNoteAdded": "New note added",
+    "emptyTextfield": "Field is empty",
+    "categoryName": "Category name",
+    "search": "Search",
+    "edit": "Edit",
+    "delete": "Delete"
 }

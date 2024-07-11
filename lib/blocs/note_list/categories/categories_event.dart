@@ -7,10 +7,10 @@ sealed class CategoryListingEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ChangeCategory extends CategoryListingEvent {
+class SelectCategory extends CategoryListingEvent {
   final NoteCategoryModel category;
 
-  const ChangeCategory(this.category);
+  const SelectCategory(this.category);
 
   @override
   List<Object> get props => [category];
@@ -23,11 +23,11 @@ class LoadCategories extends CategoryListingEvent {
   List<Object> get props => [];
 }
 
-// class AddCategory extends CategoryListingEvent {
-//   final NoteCategoryModel category;
+class AddNewCategory extends CategoryListingEvent {
+  final NoteCategoryModel category;
 
-//   const AddCategory(this.category);
+  const AddNewCategory(this.category);
 
-//     @override
-//   List<Object> get props => [category];
-// }
+  @override
+  List<Object> get props => [category];
+}
