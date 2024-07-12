@@ -78,7 +78,6 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
           listener: (context, state) {
             if (state is CategoryListingSuccess) {
               setState(() {
-                _isLoading = false;
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 if (state.categories.isEmpty) {
                   context
