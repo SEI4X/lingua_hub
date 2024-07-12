@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy/fuzzy.dart';
@@ -9,6 +10,7 @@ import 'package:lingua_notes/core/components/chips_scroll_view.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:lingua_notes/screens/notes_list/add_new_note/new_note_screen.dart';
 import 'package:lingua_notes/screens/notes_list/note_cell/note_list_cell.dart';
+import 'package:lingua_notes/screens/notes_list/sort/sort_notes_list_screen.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes_repository/notes_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,7 +23,7 @@ class NotesListingScreen extends StatefulWidget {
 }
 
 class _NotesListingScreenState extends State<NotesListingScreen> {
-  final passwordController = TextEditingController();
+  final searchController = TextEditingController();
   final NoteRepository _noteRepository = FirebaseNoteRepository();
   final NoteCategoryRepository _categoryRepository =
       FirebaseNoteCategoryRepository();
@@ -29,11 +31,14 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
   List<NoteModel> notes = [];
   List<NoteCategoryModel> categories = [];
   String selectedCategory = "";
+  String lastSelectedCategory = "";
   bool isLoading = true;
   NoteModel? note;
   int? editedIndex;
   int learnedWordsCount = 0;
   bool isNeededUpdate = false;
+  SortByType sortType = SortByType.none;
+  String lastSearchText = "";
 
   @override
   void initState() {
@@ -45,6 +50,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
   @override
   Widget build(BuildContext context) {
     List<NoteModel> filteredNotes = filterNotes();
+    filteredNotes = sortNotes(filteredNotes);
     return MultiBlocProvider(
       providers: [
         BlocProvider<CategoryListingBloc>(
@@ -159,7 +165,28 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                         weight: 600,
                       ),
                       onPressed: () {
-                        print("TAP");
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) {
+                              return SortNotesListScreen(
+                                  currentSortType: sortType);
+                            }).then((result) {
+                          if (result != null) {
+                            if (result[0] != sortType) {
+                              setState(() {
+                                sortType = result[0];
+                              });
+                            }
+                          }
+                        });
                       },
                     ),
                   ),
@@ -180,9 +207,11 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                                 return LNChipsList(
                                   categories: state.categories,
                                   completion: (value) {
-                                    setState(() {
-                                      selectedCategory = value;
-                                    });
+                                    if (value != selectedCategory) {
+                                      setState(() {
+                                        selectedCategory = value;
+                                      });
+                                    }
                                   },
                                 );
                               } else if (state is CategoryListingProcess) {
@@ -211,7 +240,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                           child: SizedBox(
                             height: 50,
                             child: LNTextField(
-                              controller: passwordController,
+                              controller: searchController,
                               hintText: AppLocalizations.of(context)!.search,
                               obscureText: false,
                               keyboardType: TextInputType.visiblePassword,
@@ -219,6 +248,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                                 setState(() {
                                   filteredNotes;
                                 });
+
                                 return null;
                               },
                             ),
@@ -340,7 +370,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                           padding: const EdgeInsets.all(12.0),
                           child: Icon(
                             size: 30,
-                            Icons.done_sharp,
+                            Icons.done_rounded,
                             color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
@@ -368,22 +398,48 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
     );
   }
 
+  List<NoteModel> sortNotes(List<NoteModel> sortedNotes) {
+    switch (sortType) {
+      case SortByType.none:
+        return sortedNotes;
+      case SortByType.newFirst:
+        sortedNotes.sort((a, b) =>
+            b.createDate?.compareTo(a.createDate ?? Timestamp.now()) ?? 0);
+        return sortedNotes;
+      case SortByType.oldFirst:
+        sortedNotes.sort((a, b) =>
+            a.createDate?.compareTo(b.createDate ?? Timestamp.now()) ?? 0);
+        return sortedNotes;
+      case SortByType.nameAZ:
+        sortedNotes.sort((a, b) => a.originalText
+            .toLowerCase()
+            .compareTo(b.originalText.toLowerCase()));
+        return sortedNotes;
+      case SortByType.nameZA:
+        sortedNotes.sort((a, b) => b.originalText
+            .toLowerCase()
+            .compareTo(a.originalText.toLowerCase()));
+        return sortedNotes;
+    }
+  }
+
   List<NoteModel> filterNotes() {
-    if (selectedCategory == "" && passwordController.text == "") {
+    if ((selectedCategory == "") && (searchController.text == "")) {
       return notes;
-    } else if (passwordController.text == "") {
+    } else if (searchController.text == "" &&
+        lastSelectedCategory != selectedCategory) {
       return notes.where((note) {
         return note.categoryId == selectedCategory;
       }).toList();
-    } else if (selectedCategory != "" && passwordController.text != "") {
+    } else if (selectedCategory != "" && searchController.text != "") {
       return fuzzySearchResults(
-        passwordController.text,
+        searchController.text,
         notes.where((note) {
           return note.categoryId == selectedCategory;
         }).toList(),
       );
     } else {
-      return fuzzySearchResults(passwordController.text, notes);
+      return fuzzySearchResults(searchController.text, notes);
     }
   }
 
@@ -400,7 +456,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
         tokenize: true,
         shouldSort: true,
         shouldNormalize: true,
-        threshold: 0.4,
+        threshold: 0.2,
       ),
     );
 

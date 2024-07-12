@@ -31,5 +31,13 @@
     "categoryName": "Category name",
     "search": "Search",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+
+    "sortBy": "Sort by",
+    "none": "None",
+    "newFirst": "New first",
+    "oldFirst": "Old first",
+    "nameAZ": "Name A-Z",
+    "nameZA": "Name Z-A",
+    "apply": "Apply"
 }
