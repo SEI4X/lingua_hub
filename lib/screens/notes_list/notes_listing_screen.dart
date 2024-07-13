@@ -7,6 +7,7 @@ import 'package:lingua_notes/blocs/note_list/categories/categories_bloc.dart';
 import 'package:lingua_notes/blocs/note_list/edite_note/edite_note_bloc.dart';
 import 'package:lingua_notes/blocs/note_list/notes_listing/notes_bloc.dart';
 import 'package:lingua_notes/core/components/chips_scroll_view.dart';
+import 'package:lingua_notes/core/components/standard_button.dart';
 import 'package:lingua_notes/core/components/text_field.dart';
 import 'package:lingua_notes/screens/notes_list/add_new_note/new_note_screen.dart';
 import 'package:lingua_notes/screens/notes_list/note_cell/note_list_cell.dart';
@@ -39,6 +40,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
   bool isNeededUpdate = false;
   SortByType sortType = SortByType.none;
   String lastSearchText = "";
+  final editCategoryController = TextEditingController();
 
   @override
   void initState() {
@@ -202,10 +204,17 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                           child: BlocBuilder<CategoryListingBloc,
                               CategoryListingState>(
                             builder: (context, state) {
-                              if (state is CategoryListingSuccess) {
-                                categories = state.categories;
+                              if (state is CategoryListingSuccess ||
+                                  state is CategoryDeleteSuccess) {
+                                if (state is CategoryListingSuccess) {
+                                  categories = state.categories;
+                                } else if (state is CategoryDeleteSuccess) {
+                                  categories.removeWhere((category) =>
+                                      category.id == state.deletedId);
+                                }
+
                                 return LNChipsList(
-                                  categories: state.categories,
+                                  categories: categories,
                                   completion: (value) {
                                     if (value != selectedCategory) {
                                       setState(() {
@@ -213,19 +222,37 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                                       });
                                     }
                                   },
+                                  editeCompletion: (category) {
+                                    _editeCategoryDialogBuilder
+                                        .call(context, category)
+                                        .then((category) {
+                                      if (category != null) {
+                                        context
+                                            .read<CategoryListingBloc>()
+                                            .add(EditCategory(category));
+                                      }
+                                    });
+                                  },
+                                  deleteCompletion: (String value) {
+                                    context
+                                        .read<CategoryListingBloc>()
+                                        .add(DeleteCategory(value));
+                                  },
                                 );
                               } else if (state is CategoryListingProcess) {
                                 return LNChipsList(
                                   categories: const [],
                                   isLoading: true,
                                   completion: (value) {},
+                                  editeCompletion: (value) {},
+                                  deleteCompletion: (String value) {},
                                 );
                               } else {
                                 return LNChipsList(
                                   categories: const [],
-                                  completion: (value) {
-                                    print("$value");
-                                  },
+                                  completion: (value) {},
+                                  editeCompletion: (value) {},
+                                  deleteCompletion: (String value) {},
                                 );
                               }
                             },
@@ -456,7 +483,7 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
         tokenize: true,
         shouldSort: true,
         shouldNormalize: true,
-        threshold: 0.2,
+        threshold: 0.3,
       ),
     );
 
@@ -487,5 +514,51 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
         return fuzzyWordResult.contains(note.originalText);
       }).toList();
     }
+  }
+
+  Future<NoteCategoryModel?> _editeCategoryDialogBuilder(
+      BuildContext context, NoteCategoryModel category) async {
+    editCategoryController.text = category.name;
+    return await showDialog<NoteCategoryModel>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          title: Text(
+            AppLocalizations.of(context)!.editCategoryName,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LNTextField(
+                controller: editCategoryController,
+                hintText: AppLocalizations.of(context)!.categoryName,
+                obscureText: false,
+                keyboardType: TextInputType.name,
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: LHButton(
+                  text: AppLocalizations.of(context)!.apply,
+                  onPressed: () {
+                    Navigator.pop(
+                        context,
+                        NoteCategoryModel(
+                            id: category.id,
+                            name: editCategoryController.text));
+                  },
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }

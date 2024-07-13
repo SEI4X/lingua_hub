@@ -15,6 +15,7 @@ class LNTextField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final TextInputAction? textInputAction;
+  final String? initialValue;
 
   const LNTextField({
     super.key,
@@ -22,6 +23,7 @@ class LNTextField extends StatelessWidget {
     required this.hintText,
     required this.obscureText,
     required this.keyboardType,
+    this.initialValue,
     this.textInputAction,
     this.suffixIcon,
     this.onTap,
@@ -37,11 +39,13 @@ class LNTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       validator: validator,
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       focusNode: focusNode,
+      textCapitalization: TextCapitalization.sentences,
       onTap: onTap,
       textInputAction: textInputAction ?? TextInputAction.next,
       onChanged: onChanged,

@@ -76,18 +76,14 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
         ),
         BlocListener<CategoryListingBloc, CategoryListingState>(
           listener: (context, state) {
-            if (state is CategoryListingSuccess) {
+            if (state is CategoryAddSuccess) {
               setState(() {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                if (state.categories.isEmpty) {
-                  context
-                      .read<CategoryListingBloc>()
-                      .add(const LoadCategories());
-                } else {
-                  setState(() {
-                    categories = state.categories;
-                  });
-                }
+                context.read<CategoryListingBloc>().add(const LoadCategories());
+              });
+            } else if (state is CategoryListingSuccess) {
+              setState(() {
+                categories = state.categories;
               });
             }
           },

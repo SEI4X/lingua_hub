@@ -10,11 +10,15 @@ class LNChipsList extends StatefulWidget {
     required this.categories,
     this.isLoading = false,
     required this.completion,
+    required this.editeCompletion,
+    required this.deleteCompletion,
   });
 
   final List<NoteCategoryModel> categories;
   final bool isLoading;
   final ValueSetter<String> completion;
+  final ValueSetter<NoteCategoryModel> editeCompletion;
+  final ValueSetter<String> deleteCompletion;
 
   @override
   State<LNChipsList> createState() => _LNChipsListState();
@@ -27,7 +31,8 @@ class _LNChipsListState extends State<LNChipsList> {
   @override
   Widget build(BuildContext context) {
     categories = [];
-    categories.add(const NoteCategoryModel(id: "", name: "All"));
+    categories.add(
+        NoteCategoryModel(id: "", name: AppLocalizations.of(context)!.all));
     categories.addAll(widget.categories);
 
     return ListView.builder(
@@ -101,51 +106,55 @@ class _LNChipsListState extends State<LNChipsList> {
         Overlay.of(context).context.findRenderObject()!;
 
     showMenu(
-        context: context,
-        items: [
-          PopupMenuItem(
-            child: Row(children: [
-              const Icon(Symbols.edit_rounded),
-              const SizedBox(width: 16),
-              Text(
-                '${AppLocalizations.of(context)!.edit} ${category.name}',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.left,
-              )
-            ]),
-            onTap: () {
-              // tap on menu entry: do something
-            },
-          ),
-          PopupMenuItem(
-            child: Row(children: [
-              const Icon(Symbols.delete_rounded),
-              const SizedBox(width: 16),
-              Text(
-                '${AppLocalizations.of(context)!.delete} ${category.name}',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.left,
-              )
-            ]),
-            onTap: () {
-              // tap on menu entry: do something
-            },
-          ),
-        ],
-        position: RelativeRect.fromRect(
-          Rect.fromLTWH(offset.dx, offset.dy, 30, 30),
-          Rect.fromLTWH(0, 0, overlay.paintBounds.size.width,
-              overlay.paintBounds.size.height),
+      context: context,
+      items: [
+        PopupMenuItem(
+          child: Row(children: [
+            const Icon(Symbols.edit_rounded),
+            const SizedBox(width: 16),
+            Text(
+              '${AppLocalizations.of(context)!.edit} ${category.name}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.left,
+            )
+          ]),
+          onTap: () {
+            widget.editeCompletion(category);
+          },
         ),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))));
+        PopupMenuItem(
+          child: Row(children: [
+            const Icon(Symbols.delete_rounded),
+            const SizedBox(width: 16),
+            Text(
+              '${AppLocalizations.of(context)!.delete} ${category.name}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.left,
+            )
+          ]),
+          onTap: () {
+            widget.deleteCompletion.call(category.id);
+          },
+        ),
+      ],
+      position: RelativeRect.fromRect(
+        Rect.fromLTWH(offset.dx, offset.dy, 30, 30),
+        Rect.fromLTWH(0, 0, overlay.paintBounds.size.width,
+            overlay.paintBounds.size.height),
+      ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+      ),
+    );
   }
 }

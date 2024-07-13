@@ -31,3 +31,21 @@ class AddNewCategory extends CategoryListingEvent {
   @override
   List<Object> get props => [category];
 }
+
+class DeleteCategory extends CategoryListingEvent {
+  final String categoryId;
+
+  const DeleteCategory(this.categoryId);
+
+  @override
+  List<Object> get props => [categoryId];
+}
+
+class EditCategory extends CategoryListingEvent {
+  final NoteCategoryModel category;
+
+  const EditCategory(this.category);
+
+  @override
+  List<Object> get props => [category];
+}

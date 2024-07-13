@@ -72,7 +72,7 @@ class FirebaseNoteCategoryRepository implements NoteCategoryRepository {
     try {
       await categoriesCollection
           .doc(editedCategory.id)
-          .set(editedCategory.toEntity().toJSON());
+          .update(editedCategory.toEntity().toJSON());
     } catch (e) {
       log(e.toString());
       rethrow;
