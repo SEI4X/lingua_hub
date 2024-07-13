@@ -16,6 +16,8 @@ class CategoryListingBloc
     on<SelectCategory>(_categorySelected);
     on<LoadCategories>(_categoriesLoad);
     on<AddNewCategory>(_categoryAdded);
+    on<DeleteCategory>(_categoryDeleted);
+    on<EditCategory>(_categoryEdited);
   }
 
   void _categoriesLoad(
@@ -39,12 +41,36 @@ class CategoryListingBloc
 
   void _categoryAdded(
       AddNewCategory event, Emitter<CategoryListingState> emit) async {
-    emit(CategoryListingProcess());
+    emit(CategoryAddProcess());
     try {
       await _categoryRepository.addNoteCategory(event.category);
-      emit(const CategoryListingSuccess());
+      emit(CategoryAddSuccess());
     } catch (e) {
-      emit(CategoryListingFailure(message: e.toString()));
+      emit(CategoryAddFailure(message: e.toString()));
+    }
+  }
+
+  void _categoryDeleted(
+      DeleteCategory event, Emitter<CategoryListingState> emit) async {
+    emit(CategoryDeleteProcess());
+    try {
+      await _categoryRepository.deleteNoteCategory(event.categoryId);
+      emit(CategoryDeleteSuccess(deletedId: event.categoryId));
+    } catch (e) {
+      emit(CategoryDeleteFailure(message: e.toString()));
+    }
+  }
+
+  void _categoryEdited(
+      EditCategory event, Emitter<CategoryListingState> emit) async {
+    emit(CategoryListingProcess());
+    try {
+      await _categoryRepository.editeNoteCategory(event.category);
+      List<NoteCategoryModel> categories =
+          await _categoryRepository.getNoteCategories();
+      emit(CategoryListingSuccess(categories: categories));
+    } catch (e) {
+      emit(CategoryAddFailure(message: e.toString()));
     }
   }
 }

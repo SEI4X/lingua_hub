@@ -28,6 +28,7 @@
     "newCategory": "New category",
     "newNoteAdded": "New note added",
     "emptyTextfield": "Field is empty",
+    "editCategoryName": "Editing category name",
     "categoryName": "Category name",
     "search": "Search",
     "edit": "Edit",
@@ -39,5 +40,6 @@
     "oldFirst": "Old first",
     "nameAZ": "Name A-Z",
     "nameZA": "Name Z-A",
-    "apply": "Apply"
+    "apply": "Apply",
+    "all": "All"
 }
