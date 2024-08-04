@@ -1,3 +1,5 @@
+import 'package:notes_repository/notes_repository.dart';
+
 import 'models/model.dart';
 
 abstract class NoteRepository {
@@ -10,4 +12,9 @@ abstract class NoteRepository {
   Future<void> editeNote(NoteModel editedNote);
 
   Future<void> deleteNote(String noteId);
+
+  Future<NoteModel?> getNoteById(String noteId);
+
+  Future<List<NoteModel>> getNotesForLearning(
+      CardsLearnType type, String categoryId, int count);
 }

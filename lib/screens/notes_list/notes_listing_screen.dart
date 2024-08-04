@@ -371,8 +371,13 @@ class _NotesListingScreenState extends State<NotesListingScreen> {
                       switch (direction) {
                         case DismissDirection.startToEnd:
                           editedIndex = index;
+                          var isLearned = filteredNotes[index].isLearned;
                           note = filteredNotes[index].copyWith(
-                              isLearned: !filteredNotes[index].isLearned);
+                            isLearned: isLearned ? false : true,
+                            lastLearnDate: isLearned
+                                ? filteredNotes[index].lastLearnDate
+                                : Timestamp.now(),
+                          );
                           if (note != null) {
                             context.read<EditeNoteBloc>().add(
                                   EditingNote(note!),
