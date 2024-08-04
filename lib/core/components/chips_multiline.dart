@@ -6,15 +6,18 @@ import 'package:notes_repository/notes_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LNChipsMultiline extends StatefulWidget {
-  const LNChipsMultiline(
-      {super.key,
-      required this.categories,
-      required this.callback,
-      required this.tapCallBack});
+  const LNChipsMultiline({
+    super.key,
+    required this.categories,
+    required this.callback,
+    required this.tapCallBack,
+    this.isAddNewCategoryButton = true,
+  });
 
   final List<NoteCategoryModel> categories;
   final void Function(NoteCategoryModel category) callback;
   final void Function(String category) tapCallBack;
+  final bool isAddNewCategoryButton;
 
   @override
   State<LNChipsMultiline> createState() => _LNChipsMultilineState();
@@ -28,6 +31,7 @@ class _LNChipsMultilineState extends State<LNChipsMultiline> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      alignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 4,
       children: setList(),
@@ -68,37 +72,38 @@ class _LNChipsMultilineState extends State<LNChipsMultiline> {
               } else {
                 _categoryId = category.id;
               }
-
               widget.tapCallBack(_categoryId);
             });
           },
         );
       },
     ).toList();
-    chipList.add(ChoiceChip(
-      label: const Icon(
-        Symbols.add_rounded,
-        size: 20,
-      ),
-      pressElevation: 0,
-      elevation: 0,
-      selectedColor: Theme.of(context).colorScheme.background,
-      disabledColor: Theme.of(context).colorScheme.background,
-      backgroundColor: Theme.of(context).colorScheme.background,
-      padding: const EdgeInsets.only(
-        left: 30,
-        right: 30,
-        top: 7,
-        bottom: 7,
-      ),
-      shape: StadiumBorder(
-          side: BorderSide(
-              color: Theme.of(context).colorScheme.onBackground, width: 1.5)),
-      selected: false,
-      onSelected: (value) {
-        _dialogBuilder(context);
-      },
-    ));
+    if (widget.isAddNewCategoryButton) {
+      chipList.add(ChoiceChip(
+        label: const Icon(
+          Symbols.add_rounded,
+          size: 20,
+        ),
+        pressElevation: 0,
+        elevation: 0,
+        selectedColor: Theme.of(context).colorScheme.background,
+        disabledColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        padding: const EdgeInsets.only(
+          left: 30,
+          right: 30,
+          top: 7,
+          bottom: 7,
+        ),
+        shape: StadiumBorder(
+            side: BorderSide(
+                color: Theme.of(context).colorScheme.onBackground, width: 1.5)),
+        selected: false,
+        onSelected: (value) {
+          _dialogBuilder(context);
+        },
+      ));
+    }
 
     return chipList;
   }

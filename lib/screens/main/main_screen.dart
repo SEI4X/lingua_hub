@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_notes/screens/learning_swipe/home/learning_cards_screen.dart';
 import 'package:lingua_notes/screens/user/user_screen.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import '../notes_list/notes_listing_screen.dart';
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
           UserScreen(),
 
           /// User page
-          UserScreen(),
+          LearningCardsScreen(),
 
           /// Notes page
           NotesListingScreen(),

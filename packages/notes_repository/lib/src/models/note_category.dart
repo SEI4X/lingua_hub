@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:notes_repository/notes_repository.dart';
 import '../entities/entities.dart';
 
 class NoteCategoryModel extends Equatable {
@@ -36,6 +37,13 @@ class NoteCategoryModel extends Equatable {
     return NoteCategoryModel(
       id: entity.id,
       name: entity.name,
+    );
+  }
+
+  static NoteCategoryModel fromLocal(NotesCategoryLocal entity) {
+    return NoteCategoryModel(
+      id: entity.serverId ?? "",
+      name: entity.name ?? "",
     );
   }
 

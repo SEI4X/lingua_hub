@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:notes_repository/notes_repository.dart';
 import '../entities/entities.dart';
 
 class NoteModel extends Equatable {
@@ -114,6 +115,24 @@ class NoteModel extends Equatable {
       lastLearnDate: entity.lastLearnDate,
       isAutoTranslated: entity.isAutoTranslated,
       isLearned: entity.isLearned,
+    );
+  }
+
+  static NoteModel fromLocal(NoteLocal entity) {
+    return NoteModel(
+      id: entity.serverId,
+      originalText: entity.originalText ?? "",
+      translatedText: entity.translatedText ?? "",
+      transcription: entity.transcription,
+      notes: entity.notes,
+      examples: entity.examples,
+      categoryId: entity.categoryId ?? "",
+      learnCount: entity.learnCount ?? 0,
+      createDate: Timestamp.fromDate(entity.createDate ?? DateTime.now()),
+      learnDate: Timestamp.fromDate(entity.learnDate ?? DateTime.now()),
+      lastLearnDate: Timestamp.fromDate(entity.lastLearnDate ?? DateTime.now()),
+      isAutoTranslated: entity.isAutoTranslated ?? false,
+      isLearned: entity.isLearned ?? false,
     );
   }
 
